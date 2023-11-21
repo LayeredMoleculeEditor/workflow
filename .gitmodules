@@ -1,0 +1,3 @@
+[submodule "python_sdk"]
+	path = python_sdk
+	url = git@github.com:LayeredMoleculeEditor/python_sdk
