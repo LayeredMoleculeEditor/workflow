@@ -8,7 +8,7 @@ async def main():
         await ws.clone_stack(0)
         await ws.get_stack(1)
         await ws.is_stack_writable(1)
-        await ws.overlay_fill_layer(1)
+        await ws.overlay_fill_layer([1])
         await ws.is_stack_writable(1)
         await ws.write_to_layer(1, {
             0: {
@@ -24,7 +24,7 @@ async def main():
             "indexes": [(0, 1), (0, 2)],
             "values": [1, 3]
         })
-        await ws.overlay_fill_layer(1)
+        await ws.overlay_fill_layer([1])
         add_substituent: AddSubstitute = {
             "atoms": [
                 {
