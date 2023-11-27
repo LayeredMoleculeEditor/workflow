@@ -1,6 +1,6 @@
 from python_sdk import AddSubstitute, Workspace
-from ase.io.gaussian import read_gaussian_in
-from ase import Atom, Atoms
+from ase.io.gaussian import read_gaussian_in, write_gaussian_in
+from ase import Atoms
 
 async def main():
     ws = Workspace("http://localhost:18010", "example")
@@ -22,9 +22,11 @@ async def main():
         await ws.clone_stack(0)
         await ws.add_substitute(1, add_benzene)
         [atoms, _, _] = await ws.cleaned_molecule(1)
-        atoms = map(lambda atom: Atom(atom["element"], atom["position"]), atoms)
+        symbols = list(map(lambda atom: atom["element"], atoms))
+        positions = list(map(lambda atom: atom["position"], atoms))
+        atoms = Atoms(symbols, positions)
+        write_gaussian_in(open("./overlayed.gjf", "w"), atoms)
     finally:
-        # pass
         print(f"Remove created Workspaces: {await ws.remove()}")
         await ws.close()
 
