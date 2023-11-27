@@ -1,0 +1,10 @@
+name: lme2_pysdk
+channels:
+  - conda-forge
+dependencies:
+  - aiohttp
+  - openbabel
+  - ca-certificates
+  - openssl
+  - ase
+prefix: /root/conda/envs/lme2_pysdk
