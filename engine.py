@@ -1,4 +1,5 @@
 from abc import ABC, abstractclassmethod, abstractproperty
+import asyncio
 import json
 import os
 import os.path
@@ -17,7 +18,7 @@ class RunnerMetas(TypedDict):
     name: str
 
 class RunnerBase:
-    def __init__(self, metas: RunnerMetas) -> None:
+    def __init__(self, metas: RunnerMetas, options) -> None:
         self.__metas__ = metas
 
     async def init_resources(self) -> None:
@@ -52,7 +53,9 @@ class Engine:
                 self.__cached__.pop()
 
     async def init_resources(self):
-        await self.__workspace__.create(self.__cache_status__)
+        await asyncio.gather(
+            self.__workspace__.create(), *[runner.init_resources() for runner in self.__runners__]
+        )
 
     async def one_step(self):
         if len(self.__cached__) == len(self.__runners__):
