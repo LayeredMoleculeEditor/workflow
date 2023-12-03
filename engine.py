@@ -13,9 +13,15 @@ class RunnerContext(TypedDict):
     start: int
     tags: list[dict[str, str]]
 
+class RunnerMetas(TypedDict):
+    name: str
+
 class RunnerBase:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, metas: RunnerMetas) -> None:
+        self.__metas__ = metas
+
+    async def init_resources(self) -> None:
+        return None
 
     def cache(self) -> int:
         raise NotImplementedError
