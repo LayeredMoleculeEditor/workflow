@@ -14,6 +14,9 @@ class Runner(RunnerBase):
         super().__init__(None)
         self.__options__ = options
 
+    def cache(self) -> int:
+        return hash(self.__options__)
+
     async def __generate_rotation_layer__(atoms: Atoms, start: int, end: int, target: tuple[float, float, float]):
         start = np.array(atoms[start]['position'])
         end = np.array(atoms[end]['position'])

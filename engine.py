@@ -14,11 +14,11 @@ class RunnerContext(TypedDict):
     tags: list[dict[str, str]]
 
 class RunnerBase:
-    def __init__(self, options: TypedDict) -> None:
-        self.__options__ = options
+    def __init__(self) -> None:
+        pass
 
     def cache(self) -> int:
-        return hash(self.__options__)
+        raise NotImplementedError
 
     async def init_resources(self) -> None:
         pass
