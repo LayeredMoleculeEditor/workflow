@@ -12,13 +12,13 @@ async def main():
         await ws.overlay_fill_layer([1,2,3])
         await ws.write_to_layer(2, {
             0: {
-                "element": 6, "position": [0.,0.,0.] 
+                "element": 6, "position": (0.,0.,0.) 
             },
             1: {
-                "element": 1, "position": [1., 0., 0.]
+                "element": 1, "position": (1., 0., 0.)
             },
             2: {
-                "element":15, "position": [0., 0., -1.]
+                "element":15, "position": (0., 0., -1.)
             },
         }, {
             "indexes": [(0, 1), (0, 2)],
@@ -27,26 +27,28 @@ async def main():
         print(await ws.get_stacks())
         await ws.overlay_fill_layer([2])
         add_substituent: AddSubstitute = {
-            "atoms": [
-                {
-                    "element": 1,
-                    "position": [0., 0., 0.]
-                },
-                {
-                    "element": 6,
-                    "position": [0., 1., 0.]
-                },
-                {
-                    "element": 5,
-                    "position": [0., 2., 0.]
-                }
-            ],
-            "bonds_idxs": [
-                (0,1), (1,2)
-            ],
-            "bonds_values": [
-                1.0, 3.0
-            ],
+            "structure": {
+                "atoms": [
+                    {
+                        "element": 1,
+                        "position": (0., 0., 0.)
+                    },
+                    {
+                        "element": 6,
+                        "position": (0., 1., 0.)
+                    },
+                    {
+                        "element": 5,
+                        "position": (0., 2., 0.)
+                    }
+                ],
+                "bonds_idxs": [
+                    (0,1), (1,2)
+                ],
+                "bonds_values": [
+                    1.0, 3.0
+                ],
+            },
             "class_name": "CN",
             "current": (0, 1),
             "target": (0, 1),
