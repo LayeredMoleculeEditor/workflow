@@ -4,7 +4,7 @@ import json
 import os
 import os.path
 import pathlib
-from typing import TypedDict
+from typing import TypeVar, TypedDict
 
 from python_sdk import Workspace
 
@@ -14,24 +14,22 @@ class RunnerContext(TypedDict):
     start: int
     tags: list[dict[str, str]]
 
-class RunnerMetas(TypedDict):
+class Metas:
     name: str
-
+    envs: dict[str, str]
+    
 class RunnerBase:
-    def __init__(self, metas: RunnerMetas, options) -> None:
+    def __init__(self, metas: Metas) -> None:
         self.__metas__ = metas
 
-    async def init_resources(self) -> None:
-        return None
-
     def cache(self) -> int:
-        raise NotImplementedError
+        raise NotImplementedError()
 
     async def init_resources(self) -> None:
         pass
 
     async def execute(self, workspace: Workspace, context: RunnerContext) -> RunnerContext:
-        raise NotImplementedError
+        raise NotImplementedError()
     
 class Engine:
     def __init__(self, server: str, ws: str, runners: list[RunnerBase]) -> None:
@@ -40,7 +38,7 @@ class Engine:
         self.__cached__ = list(map(lambda r: str(r.cache), runners))
         self.__cache_status__ = None
         self.__current_ctx__: RunnerContext = {
-            "start": 0, "tags": [[]]
+            "start": 0, "tags": [{}]
         }
         while len(self.__cached__) > 0:
             cache_full_path = os.path.join(LME_CACHE_DIR, *self.__cached__, "data")
