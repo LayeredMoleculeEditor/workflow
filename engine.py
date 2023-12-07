@@ -19,7 +19,7 @@ class Metas:
     envs: dict[str, str]
     
 class RunnerBase:
-    def __init__(self, metas: Metas) -> None:
+    def __init__(self, metas: Metas, options) -> None:
         self.__metas__ = metas
 
     def cache(self) -> int:
