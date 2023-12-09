@@ -6,15 +6,17 @@ import os.path
 import pathlib
 from typing import TypeVar, TypedDict
 
+from pydantic import BaseModel
+
 from python_sdk import Workspace
 
 LME_CACHE_DIR = pathlib.Path.home() if os.environ["LME_CACHE_DIR"] is None else os.environ["LME_CACHE_DIR"]
 
-class RunnerContext(TypedDict):
+class RunnerContext(BaseModel):
     start: int
     tags: list[dict[str, str]]
 
-class Metas:
+class Metas(BaseModel):
     name: str
     envs: dict[str, str]
     
@@ -37,9 +39,9 @@ class Engine:
         self.__runners__ = runners
         self.__cached__ = list(map(lambda r: str(r.cache), runners))
         self.__cache_status__ = None
-        self.__current_ctx__: RunnerContext = {
-            "start": 0, "tags": [{}]
-        }
+        self.__current_ctx__ = RunnerContext(
+            start=0, tags=[{}]
+        )
         while len(self.__cached__) > 0:
             cache_full_path = os.path.join(LME_CACHE_DIR, *self.__cached__, "data")
             if os.path.exists(cache_full_path):
