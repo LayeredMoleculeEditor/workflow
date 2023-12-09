@@ -2,7 +2,6 @@ import asyncio
 import os.path
 from pathlib import Path
 import aiofile
-import numpy as np
 from pydantic import BaseModel
 from engine import Metas, RunnerBase, RunnerContext
 
@@ -16,8 +15,6 @@ class RunnerConfig(BaseModel):
 
 class ImportStructure(BaseModel):
     structure: CleanedMolecule
-    translation: np.ndarray
-    rotation: np.ndarray
     class_name: str
 
 
@@ -30,7 +27,7 @@ class Runner(RunnerBase):
     async def init_resources(self) -> None:
         directory = Path(self.options.directory)
         selects = [
-            item for select in self.options.selects for item in directory.glob(select)]
+            item for select in self.options.selects for item in directory.glob(f"{select}.json")]
         files = await asyncio.gather(*[aiofile.async_open(select) for select in selects])
         files = await asyncio.gather(*[file.read() for file in files])
         structures = [ImportStructure.model_validate_json(
