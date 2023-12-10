@@ -7,4 +7,10 @@ dependencies:
   - ca-certificates
   - openssl
   - ase
+  - scipy
+  - certifi
+  - mypy
+  - aiofile
+  - pydantic
+  - black
 prefix: /root/conda/envs/lme2_pysdk
